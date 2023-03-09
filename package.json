@@ -19,5 +19,14 @@
   "bugs": {
     "url": "https://github.com/JoeyGarber/agenciflow-hackathon-api/issues"
   },
-  "homepage": "https://github.com/JoeyGarber/agenciflow-hackathon-api#readme"
+  "homepage": "https://github.com/JoeyGarber/agenciflow-hackathon-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.1",
+    "passport": "^0.6.0",
+    "passport-http-bearer": "^1.0.1"
+  }
 }

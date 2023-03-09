@@ -103,3 +103,5 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
   .then(() => res.sendStatus(204))
   .catch(next)
 })
+
+module.exports = router
