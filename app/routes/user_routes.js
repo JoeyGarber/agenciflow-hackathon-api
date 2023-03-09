@@ -3,6 +3,8 @@ const express = require('express')
 const passport = require('passport')
 // Used to hash and unhash password
 const bcrypt = require('bcrypt')
+// Used to create 16 byte random hex strings
+const crypto = require('crypto')
 
 // Determines the 'amount' the password is hashed, kinda
 // 10 is recommended
@@ -11,6 +13,7 @@ const bcryptSaltRounds = 10
 // Grab custom errors
 const errors = require('../../lib/custom_errors.js')
 const BadParamsError = errors.BadParamsError
+const BadCredentialsError = errors.BadCredentialsError
 
 User = require('../models/user.js')
 
@@ -50,5 +53,53 @@ router.post('/sign-up', (req, res, next) => {
   // defined on the User model
   .then((user) => res.status(201).json({ user: user.toObject() }))
   // Pass any errors to the error handler
+  .catch(next)
+})
+
+router.post('/sign-in', (req, res, next) => {
+  const password = req.body.credentials.password
+  let user
+
+  // Look up user in DB by email
+  User.findOne({ email: req.body.credentials.email })
+  .then((record) => {
+    // If we didn't find the user, send a 401
+    if (!record) {
+      throw new BadCredentialsError()
+    }
+    // Save the found user outside of the promise chain
+    user = record
+    // `bcrypt.compare` hashes password, compares it to 
+    // already hashed password, and returns true or false
+    return bcrypt.compare(password, user.hashedPassword)
+  })
+  .then((correctPassword) => {
+    // If the passwords matched, 
+    if (correctPassword) {
+      // create a token, which is a 16 byte random hex string,
+      const token = crypto.randomBytes(16).toString('hex')
+      // add it to the user object,
+      user.token = token
+      // and save the token to the DB as a property on the user
+      return user.save()
+    } else {
+      // If the passwords didn't match, throw an error about sending in
+      // wrong parameters. That will end the promise chain, and
+      // send back a 401 and a message about wrong params
+      throw new BadCredentialsError()
+    }
+  })
+  .then((user) => {
+    res.status(201).json({ user: user.toObject() })
+  })
+  .catch(next)
+})
+
+router.delete('/sign-out', requireToken, (req, res, next) => {
+  // Set token on user object to null
+  req.user.token = null
+  // Save that, and respond with a 204
+  req.user.save()
+  .then(() => res.sendStatus(204))
   .catch(next)
 })
