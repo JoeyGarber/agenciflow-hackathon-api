@@ -5,18 +5,18 @@ const cors = require('cors')
 const dotenv = require('dotenv').config()
 
 // Require route files
-const userRoutes = require('../app/routes/user_routes.js')
+const userRoutes = require('./app/routes/user_routes.js')
 
 // Require middleware
-const errorHandler = require('../lib/error_handler.js')
-const requestLogger = require('../lib/request_logger.js')
+const errorHandler = require('./lib/error_handler.js')
+const requestLogger = require('./lib/request_logger.js')
 
 // Require database config logic
 // 'db' is the Mongo URI as a string
-const db = require('../config/db.js')
+const db = require('./config/db.js')
 
 // Require configured passport auth middleware
-const auth = require('../lib/auth.js')
+const auth = require('./lib/auth.js')
 
 // Define server port
 const serverDevPort = 4741
