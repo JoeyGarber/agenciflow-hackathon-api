@@ -33,7 +33,7 @@ const app = express()
 
 // Set CORS header on response from this API using 'cors' NPM package
 // `CLIENT_ORIGIN` is a .env variable that we'll set on the deployment site
-app.use(cors({ origin: [process.env.CLIENT_ORIGIN, `http://localhost:${clientDevPort}`]}))
+app.use(cors({ origin: ['https://agenciflow-hackathon.vercel.app/', process.env.CLIENT_ORIGIN, `http://localhost:${clientDevPort}`]}))
 
 // Define port for API to run on
 const port = process.env.PORT || serverDevPort
