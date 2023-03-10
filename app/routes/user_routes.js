@@ -59,7 +59,6 @@ router.post('/sign-up', (req, res, next) => {
 router.post('/sign-in', (req, res, next) => {
   const password = req.body.credentials.password
   let user
-
   // Look up user in DB by email
   User.findOne({ email: req.body.credentials.email })
   .then((record) => {
