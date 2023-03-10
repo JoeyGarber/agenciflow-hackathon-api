@@ -2,10 +2,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const passport = require('passport')
 const dotenv = require('dotenv').config()
 
 // Require route files
 const userRoutes = require('./app/routes/user_routes.js')
+const ablyRoutes = require('./app/routes/ably_routes.js')
 
 // Require middleware
 const errorHandler = require('./lib/error_handler.js')
@@ -52,6 +54,7 @@ app.use(requestLogger)
 
 // Use the routes
 app.use(userRoutes)
+app.use(ablyRoutes)
 
 // Use the error handling middleware
 // This comes after the routes, because it has to be there if one of the routes
