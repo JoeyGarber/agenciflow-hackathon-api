@@ -15,11 +15,11 @@ const crypto = require('crypto')
 const bcryptSaltRounds = 10
 
 // Grab custom errors
-const errors = require('../../lib/custom_errors.js')
+const errors = require('../lib/custom_errors.js')
 const BadParamsError = errors.BadParamsError
 const BadCredentialsError = errors.BadCredentialsError
 
-User = require('../models/user.js')
+User = require('../app/models/user.js')
 
 // Passing this as the second argument to a route
 // will require a token to hit that route. It will
