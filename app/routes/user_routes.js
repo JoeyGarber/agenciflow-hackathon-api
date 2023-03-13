@@ -1,3 +1,7 @@
+// This route file is not being used
+// Deployment to Vercel (essentially) requires
+// Routes to live in index.js
+
 const express = require('express')
 // Used to make routes require authentication
 const passport = require('passport')
